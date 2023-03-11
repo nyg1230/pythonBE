@@ -5,10 +5,6 @@ from common.exception import error_handler
 
 app = Flask(__name__)
 
-@app.route('/')
-def hello_world():
-    return 'Hello World!'
-
 regist_blueprint.auto_register(app)
 error_handler.ErrorHandler(app)
 server_config = Config.ServerConfig()

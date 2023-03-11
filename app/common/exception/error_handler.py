@@ -8,8 +8,10 @@ def ErrorHandler(app: Flask):
             "error": "Error",
             "message": "message"
         }
+        print("common_error")
         return jsonify(info, 500)
     
     @app.errorhandler(CustomException)
     def custom_handler(e):
+        print("custom_error")
         return e.get_error_info()

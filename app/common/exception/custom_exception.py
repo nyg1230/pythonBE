@@ -1,8 +1,15 @@
+from common.exception.custom_error_info import ErrorInfo
+
 class CustomException(Exception):
     def __init__(self, error_code, error_message, status_code):
         self.__error_code       = error_code
         self.__error_message    = error_message
         self.__status_code      = status_code
+        
+    def __init__(self, error_info: ErrorInfo):
+        self.__error_code       = error_info.get_code()
+        self.__error_message    = error_info.get_message()
+        self.__status_code      = error_info.get_status()
     
     def get_error_code(self):
         return self.__error_code
