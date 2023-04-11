@@ -1,4 +1,4 @@
-from common.exception.custom_error_info import ErrorInfo
+from app.common.exception.exception_code import ExcpetionCode
 
 class CustomException(Exception):
     def __init__(self, error_code, error_message, status_code):
@@ -6,7 +6,7 @@ class CustomException(Exception):
         self.__error_message    = error_message
         self.__status_code      = status_code
         
-    def __init__(self, error_info: ErrorInfo):
+    def __init__(self, error_info: ExcpetionCode):
         self.__error_code       = error_info.get_code()
         self.__error_message    = error_info.get_message()
         self.__status_code      = error_info.get_status()
