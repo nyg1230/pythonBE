@@ -1,17 +1,12 @@
 from flask import Flask
-from app.common.config import regist_blueprint
-from common.config import Config
-from common.exception import error_handler
+from app.common.util import blueprint_util, property_util
+from app.common.exception import exception_handler
+from operator import itemgetter
 
 app = Flask(__name__)
-
-regist_blueprint.auto_register(app)
-error_handler.ErrorHandler(app)
-server_config = Config.ServerConfig()
+blueprint_util.blueprint_regist(app)
+exception_handler.regist_handler(app)
+host, port, debug = itemgetter("host", "port", "debug")(property_util.get_server())
 
 if __name__ == '__main__':
-    app.run(
-        host    = server_config.get_host(),
-        port    = server_config.get_port(),
-        debug   = server_config.get_debug()
-    )
+    app.run(host = host, port = port, debug = debug)
