@@ -1,0 +1,60 @@
+# 추가적인 구조화 작업 필요한지 확인하기
+path: ./log
+level: info
+config:
+    version: 1
+    formatters:
+        standard:
+            format: "%(asctime)s [%(levelname)s] %(message)s"
+            datefmt: "%Y-%m-%d %H:%M:%S"
+        error:
+            format: "%(asctime)s [%(levelname)s] [%(thread)d] %(message)s"
+            datefmt: "%Y-%m-%d %H:%M:%S"
+    handlers:
+        console:
+            class: logging.StreamHandler
+            formatter: standard
+            level: INFO
+        app_logger:
+            class: logging.FileHandler
+            filename: application.log
+            formatter: standard
+            level: INFO
+        request_logger:
+            class: logging.FileHandler
+            filename: request.log
+            formatter: standard
+            level: INFO
+        exception_logger:
+            class: logging.FileHandler
+            filename: error.log
+            formatter: error
+            level: ERROR
+    loggers:
+        __main__:
+            level: INFO
+            handlers:
+                - console
+                - request_logger
+            propagate: true
+        app_logger:
+            level: INFO
+            handlers:
+                - console
+                - app_logger
+        debug_logger:
+            level: DEBUG
+            handlers:
+                - console
+            propagate: true
+        info_logger:
+            level: INFO
+            handlers:
+                - request_logger
+            propagate: true
+        error_logger:
+            level: ERROR
+            handlers:
+                - exception_logger
+            propagate: true
+

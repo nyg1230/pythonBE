@@ -10,6 +10,15 @@ def is_tuple(obj):
 def is_dict(obj):
     return isinstance(obj, dict)
 
+def merge(target = dict, obj = dict):
+    for k, v in target.items():
+        if is_dict(v):
+            node = obj.setdefault(k, {})
+            merge(node, v)
+        else:
+            obj[k] = v
+    return obj
+
 def find(obj, key, default_value = None, split_str = "."):
     path = ""
     if (is_list(key)): path = key

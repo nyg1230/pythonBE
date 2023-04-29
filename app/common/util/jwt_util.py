@@ -1,7 +1,7 @@
 from datetime import datetime
 import jwt
 from enum import Enum
-import date_util
+from app.common.util import date_util
 from app.common.exception.exception_code import ExcpetionCode
 from app.common.exception.custom_exception import CustomException
 
@@ -9,21 +9,28 @@ class JWTEnum(Enum):
     KEY = "nope"
     ALG = "HS256"
     EXP_PERIOD = 5 * 60 * 1000
-    EXP_UNIT = "ms"
 
-def create_token(param):
-    now_datetime = datetime.utcnow()
+def get_payload(token):
+    validate_token(token)
+    return jwt.decode(token, JWTEnum.KEY.value, JWTEnum.ALG.value)
+
+def create_token(param: dict):
+    now_timestamp = date_util.get_now_timestamp()
     payload = {
-        "issuedAt": "",
-        "exp": date_util.add_datetime_unit_2_ts(now_datetime, JWTEnum.EXP_PERIOD.value, JWTEnum.EXP_UNIT.value)
+        "iss": "",
+        "sub": "",
+        "iat": now_timestamp,
+        "exp": now_timestamp + JWTEnum.EXP_PERIOD.value
     }
     token = jwt.encode(payload, JWTEnum.KEY.value, JWTEnum.ALG.value)
     return token
 
 def recreate_token(token):
-    if (validate_token(token)): return
-    re_token = create_token()
-    return re_token
+    payload = get_payload(token)
+    now_timestamp = date_util.get_now_timestamp()
+    dict(payload).setdefault("iat", now_timestamp)
+    dict(payload).setdefault("exp", now_timestamp + JWTEnum.EXP_PERIOD.value)
+    return create_token(payload)
 
 def validate_token(token):
     try:

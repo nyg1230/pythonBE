@@ -1,9 +1,12 @@
 import yaml
 import os
+from app.common.util import common_util
 
 global prop
+root = os.environ.get("PD3_CONFIG_ROOT", os.getcwd())
+path = os.environ.get("PD3_CONFIG_PATH", "\\conf\\")
 
-def get_prop(name = "", path = "", root = "", ext = "yml"):
+def get_prop(name = "", path = path, root = root, ext = "yml"):
     result = None
     try:
         full_path = f"{root}{path}{name}.{ext}"
@@ -13,7 +16,7 @@ def get_prop(name = "", path = "", root = "", ext = "yml"):
         print(e)
     return result
 
-def get_value(key = None):
+def get_value(key = None, default_value = None):
     result = None
     if (key is not None):
         result = prop.get(key)
@@ -25,8 +28,6 @@ def get_server(key = ""):
     return server if (key == "") else server.get(key)
 
 name = os.environ.get("PD3_CONFIG_NAME", "application")
-root = os.environ.get("PD3_CONFIG_ROOT", os.getcwd())
-path = os.environ.get("PD3_CONFIG_PATH", "\\conf\\")
 ext = os.environ.get("PD3_CONFIG_EXT", "yml")
 
 try:
@@ -45,13 +46,11 @@ try:
         print(f"path - {root}{path}{profile_name}.{ext}")
         profile_prop = get_prop(profile_name, path, root)
         print("profile property load complete!")
-        prop.update(profile_prop)
+        common_util.merge(prop, profile_prop)
     else:
         print(f"profile not exist...")
 except:
     print("profile property load failed...")
 finally:
     del name
-    del path
-    del root
     del ext
