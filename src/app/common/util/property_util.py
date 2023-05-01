@@ -3,8 +3,8 @@ import os
 from app.common.util import common_util
 
 global prop
-root = os.environ.get("PD3_CONFIG_ROOT", os.getcwd())
-path = os.environ.get("PD3_CONFIG_PATH", "\\conf\\")
+root = os.environ.get("CONFIG_ROOT", os.getcwd())
+path = os.environ.get("CONFIG_PATH", "\\conf\\")
 
 def get_prop(name = "", path = path, root = root, ext = "yml"):
     result = None
@@ -27,8 +27,8 @@ def get_server(key = ""):
     server = get_value("server")
     return server if (key == "") else server.get(key)
 
-name = os.environ.get("PD3_CONFIG_NAME", "application")
-ext = os.environ.get("PD3_CONFIG_EXT", "yml")
+name = os.environ.get("CONFIG_NAME", "application")
+ext = os.environ.get("CONFIG_EXT", "yml")
 
 try:
     print("propert load...")

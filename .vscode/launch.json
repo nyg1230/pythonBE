@@ -9,8 +9,9 @@
             "type": "python",
             "request": "launch",
             "module": "flask",
+            "python": "${workspaceFolder}/venv/Scripts/python.exe",
             "env": {
-                "FLASK_APP": "${workspaceFolder}/app",
+                "FLASK_APP": "${workspaceFolder}/src/app_run.py",
                 "FLASK_DEBUG": "1"
             },
             "args": [
