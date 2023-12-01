@@ -5,7 +5,7 @@ from app.common.util import blueprint_util, property_util, logger_util
 from app.common.decorator import decorator
 from app.common.exception import exception_handler
 
-# 하위 함수 확인 후 호출 함수 반환받아서 로깅 작업하기
+# logger setting
 logger_util.load_logger()
 logger = logging.getLogger("app_logger")
 
