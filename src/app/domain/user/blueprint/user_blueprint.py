@@ -5,6 +5,11 @@ from app.common.util import jwt_util
 
 user = Blueprint("user_blueprint", __name__, url_prefix="/user")
 
+@user.route("/login", methods = ["GET", "POST"])
+def login():
+    print("asdf")
+    return { "test": { "qwer": 123, "asdf": [1,2,3,4], "zxcv": { "a": 1 } } }
+
 @user.route("/get", methods = method_enum.get("CRUD"))
 def get_user():
     token = jwt_util.create_token({ "test": 1 })

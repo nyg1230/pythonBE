@@ -1,6 +1,7 @@
 from flask import Flask
 from operator import itemgetter
 import logging
+from flask_cors import CORS
 from app.common.util import blueprint_util, property_util, logger_util
 from app.common.decorator import decorator
 from app.common.exception import exception_handler
@@ -10,6 +11,7 @@ logger_util.load_logger()
 logger = logging.getLogger("app_logger")
 
 app = Flask(__name__)
+CORS(app, resources={r"/*": { "origins": "*" }})
 st_msg = "server start"
 logger.log(logging.INFO, st_msg)
 
