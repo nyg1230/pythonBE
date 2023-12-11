@@ -4,7 +4,7 @@ from app.common.util import common_util
 
 global prop
 root = os.environ.get("CONFIG_ROOT", os.getcwd())
-path = os.environ.get("CONFIG_PATH", "\\conf\\")
+path = os.environ.get("CONFIG_PATH", "/conf/")
 
 def get_prop(name = "", path = path, root = root, ext = "yml"):
     result = None

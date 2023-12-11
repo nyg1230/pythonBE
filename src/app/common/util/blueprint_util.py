@@ -4,7 +4,6 @@ import importlib
 
 class blueprint_enum(Enum):
     user = "app.domain.user.blueprint.user_blueprint"
-    board = "app.domain.board.blueprint.board_blueprint"
 
 def blueprint_regist(app: Flask):
     result = {
@@ -14,6 +13,7 @@ def blueprint_regist(app: Flask):
     for blueprint in blueprint_enum:
         key = blueprint.name
         path = blueprint.value
+
         try:
             module = importlib.import_module(path, package="app")
             blueprint_module = getattr(module, key)
@@ -24,4 +24,5 @@ def blueprint_regist(app: Flask):
             name = type(e).__name__
             fail.setdefault(name, [])
             fail[name].append(key)
+
     return result
