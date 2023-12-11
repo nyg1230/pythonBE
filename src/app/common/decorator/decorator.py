@@ -1,6 +1,6 @@
 from flask import Flask, request
 from functools import wraps
-from enum import Enum
+from app.common.util import jwt_util
 import logging
 
 logger = logging.getLogger("info_logger")
@@ -16,8 +16,10 @@ def regist_request_decorator(app: Flask):
 def jwt_authorization(f):
     @wraps(f)
     def deco(*args, **kwargs):
-        print("jwt_authorization >>>>>>>>>>>>>>>>>>>>>>")
-        print(request)
+        headers = request.headers
+        jwt = headers.get(jwt_util.JWTEnum.HEADER)
+        jwt_util.validate_token(jwt)
+
         return f(*args, **kwargs)
     
     return deco

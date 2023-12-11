@@ -3,3 +3,7 @@ server:
     host: 0.0.0.0
     port: 5000
     debug: False
+database:
+    username: vanilla
+    password: script
+    url: "jdbc:postgresql://127.0.0.1:5432/mozilla"

@@ -1,9 +1,9 @@
 from app.domain.base.repogitory.base_repogitory import BaseRepogitory
 
-class BaseService():
+class BaseVo():
     __oid = ""
-    def __init__(self):
-        print("base_vo")
+
+    # def __init__(self):
 
     def get_oid(self):
         return self.__oid

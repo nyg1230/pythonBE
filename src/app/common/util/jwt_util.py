@@ -1,11 +1,12 @@
-from datetime import datetime
 import jwt
 from enum import Enum
 from app.common.util import date_util
 from app.common.exception.exception_code import ExcpetionCode
 from app.common.exception.custom_exception import CustomException
+from app.domain.user.vo.user_vo import UserVo
 
 class JWTEnum(Enum):
+    HEADER = "x-auth-toekn"
     KEY = "nope"
     ALG = "HS256"
     EXP_PERIOD = 5 * 60 * 1000
@@ -14,7 +15,7 @@ def get_payload(token):
     validate_token(token)
     return jwt.decode(token, JWTEnum.KEY.value, JWTEnum.ALG.value)
 
-def create_token(param: dict):
+def create_token(p: dict):
     now_timestamp = date_util.get_now_timestamp()
     payload = {
         "iss": "",
