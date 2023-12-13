@@ -4,6 +4,8 @@ server:
     port: 5000
     debug: False
 database:
-    username: vanilla
+    user: vanilla
     password: script
-    url: "jdbc:postgresql://127.0.0.1:5432/mozilla"
+    host: "127.0.0.1"
+    port: 5432
+    dbname: mozilla

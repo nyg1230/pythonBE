@@ -10,3 +10,6 @@ class UserService(BaseService):
     
     def find_by_account(self, user: UserVo):
         return user_repogitory.find_by_account(user)
+    
+    def signup(self, user: UserVo):
+        return user_repogitory.signup(user)

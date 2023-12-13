@@ -20,9 +20,9 @@ def login():
         raise CustomException(ExcpetionCode.NOT_EXIST_USER)
     else:
         if (user.check_pw("")):
-            raise CustomException(ExcpetionCode.LOGIN_FAIL)
-        else:
             token = jwt_util.create_token(user.get_token_info())
+        else:
+            raise CustomException(ExcpetionCode.LOGIN_FAIL)
 
     return { "token": token }
 
