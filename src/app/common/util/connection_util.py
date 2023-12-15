@@ -13,13 +13,7 @@ class ConnectionUtil():
         conn = None
 
         try:
-            conn = psycopg2.connect(
-                dbname = db_info.get("dbname"),
-                user = db_info.get("user"),
-                password = db_info.get("password"),
-                host = db_info.get("host"),
-                port = db_info.get("port")
-            )
+            conn = psycopg2.connect(**db_info)
         except Exception as e:
             raise CustomException(ExcpetionCode.CONN_CREATE_ERROR)
 

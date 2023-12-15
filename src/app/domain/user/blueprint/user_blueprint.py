@@ -10,25 +10,28 @@ from app.common.exception.exception_code import ExcpetionCode
 user = Blueprint("user_blueprint", __name__, url_prefix="/user")
 user_service = UserService()
 
-@user.route("/login", methods = ["GET", "POST"])
+@user.route("/login", methods = ["POST"])
+@decorator.issue_token_by_user
 def login():
-    user = UserVo()
+    json = request.get_json()
+    user = UserVo(**json)
     user = user_service.find_by_account(user)
-    token = None
 
     if (user is None):
         raise CustomException(ExcpetionCode.NOT_EXIST_USER)
     else:
-        if (user.check_pw("")):
-            token = jwt_util.create_token(user.get_token_info())
-        else:
+        if (not user.check_pw(json.get("pwd"))):
             raise CustomException(ExcpetionCode.LOGIN_FAIL)
 
-    return { "token": token }
+    return user
 
 @user.route("/signup", methods = ["POST"])
 def signup():
-    print("qwer")
+    json = request.get_json()
+    user = UserVo().create(**json)
+    result = user_service.signup(user)
+    print(result)
+
     return { "state": "?" }
 
 @user.route("/get", methods = method_enum.get("CRUD"))

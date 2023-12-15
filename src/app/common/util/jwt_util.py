@@ -6,7 +6,9 @@ from app.common.exception.custom_exception import CustomException
 from app.domain.user.vo.user_vo import UserVo
 
 class JWTEnum(Enum):
-    HEADER = "x-auth-toekn"
+    HEADER = "X-AUTH-TOKEN"
+    RT = "X-AUTH-RT"
+    AT = "X-AUTH-AT"
     KEY = "nope"
     ALG = "HS256"
     EXP_PERIOD = 5 * 60 * 1000

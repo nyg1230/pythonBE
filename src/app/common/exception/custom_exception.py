@@ -1,4 +1,5 @@
 from app.common.exception.exception_code import ExcpetionCode
+import json
 
 class CustomException(Exception):
     def __init__(self, error_code, error_message, status_code):
@@ -20,10 +21,9 @@ class CustomException(Exception):
     def get_status_code(self):
         return self.__status_code
     
-    def get_error_info(self):
+    def to_json(self):
         error_info = {
-            "statusCode"    : self.get_status_code(),
             "errorCode"     : self.get_error_code(),
             "errorMessage"  : self.get_error_message()
         }
-        return error_info
+        return json.dumps(error_info, default=str)

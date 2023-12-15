@@ -2,20 +2,14 @@ from app.domain.base.repogitory.base_repogitory import BaseRepogitory
 from app.common.util.connection_util import ConnectionUtil
 from app.domain.user.vo.user_vo import UserVo
 
-global entity_name
-entity_name = "NMUser"
-
 class UserRepogitory(BaseRepogitory):
-    def __init__(self):
-        super().__init__(entity_name)
-    
     def find_by_account(self, user: UserVo):
         account = user.get_account()
         sql = f"""
         SELECT
-            *
+            oid, account, pwd, email, nickname, sex
         FROM
-            {self.get_entity()}
+            {user.get_entity()}
         WHERE
             ACCOUNT = %s
         """
@@ -26,16 +20,15 @@ class UserRepogitory(BaseRepogitory):
 
     def signup(self, user: UserVo):
         sql = f"""
-        INSERT INTO {self.get_entity()} (
-            account,
-            pwd,
-            email,
-            nickname,
-            sex
-        ) values ( %s, %s, %s, %s, %s )
+        INSERT INTO {user.get_entity()} (
+            oid, account, pwd, email, nickname, sex
+        ) values (
+            %s, %s, %s, %s, %s, %s
+        )
         """
         
         param = (
+            user.get_oid(),
             user.get_account(),
             user.get_pwd(),
             user.get_email(),

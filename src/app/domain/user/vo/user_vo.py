@@ -1,7 +1,6 @@
 from app.domain.base.vo.base_vo import BaseVo
 
 class UserVo(BaseVo):
-    __table = "NMUser"
     __account = None
     __pwd = None
     __email = None
@@ -11,7 +10,7 @@ class UserVo(BaseVo):
     __sex = None
 
     def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
+        super().__init__("NMUser", *args, **kwargs)
     
     def get_account(self): return self.__account
     def set_account(self, account): self.__account = account
@@ -44,3 +43,7 @@ class UserVo(BaseVo):
         }
 
         return p
+    
+    def to_json(self):
+        list = ["oid", "pwd", "email", "created_date", "modified_date", "nickname", "sex"]
+        return super().to_json(list)
