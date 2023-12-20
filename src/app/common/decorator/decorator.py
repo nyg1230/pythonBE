@@ -30,7 +30,11 @@ def issue_token_by_user(f):
     def wrapper(*args, **kwargs):
         user = f(*args, **kwargs)
         token = jwt_util.create_token(user.get_token_info())
-        return Response(user.to_json(), headers={ f"{jwt_util.JWTEnum.HEADER.value}": token }, mimetype="application/json")
+        headers = {
+            "Access-Control-Expose-Headers": jwt_util.JWTEnum.HEADER.value,
+            f"{jwt_util.JWTEnum.HEADER.value}": token
+        }
+        return Response(user.to_json(), headers=headers, mimetype="application/json")
     return wrapper
 
 def reissue_token(f):

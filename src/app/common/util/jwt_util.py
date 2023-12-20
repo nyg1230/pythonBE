@@ -18,14 +18,17 @@ def get_payload(token):
     return jwt.decode(token, JWTEnum.KEY.value, JWTEnum.ALG.value)
 
 def create_token(p: dict):
+    print(p)
     now_timestamp = date_util.get_now_timestamp()
     payload = {
+        **p,
         "iss": "",
         "sub": "",
         "iat": now_timestamp,
         "exp": now_timestamp + JWTEnum.EXP_PERIOD.value
     }
-    token = jwt.encode(payload, JWTEnum.KEY.value, JWTEnum.ALG.value)
+    token = jwt.encode(payload, JWTEnum.KEY.value, algorithm = JWTEnum.ALG.value)
+
     return token
 
 def recreate_token(token):

@@ -39,7 +39,9 @@ class UserVo(BaseVo):
     def get_token_info(self):
         p = {
             "account": self.__account,
-            "email": self.__email
+            "email": self.__email,
+            "nickname": self.__nickname,
+            "sex": self.__sex
         }
 
         return p

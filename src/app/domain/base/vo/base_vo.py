@@ -11,7 +11,7 @@ class BaseVo():
     
     def create(self, **kwargs):
         self.set(kwargs)
-        self.set_oid(uuid.uuid1().bytes)
+        self.set_oid(uuid.uuid1().hex)
         return self
     
     def get_entity(self):

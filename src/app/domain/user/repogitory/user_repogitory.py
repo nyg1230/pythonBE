@@ -25,6 +25,7 @@ class UserRepogitory(BaseRepogitory):
         ) values (
             %s, %s, %s, %s, %s, %s
         )
+        returning {user.get_entity()}
         """
         
         param = (
@@ -35,5 +36,7 @@ class UserRepogitory(BaseRepogitory):
             user.get_nickname(),
             user.get_sex(),
         )
+        
+        print(param)
         
         return ConnectionUtil.execute(sql, param)

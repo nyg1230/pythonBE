@@ -25,6 +25,16 @@ def login():
 
     return user
 
+@user.route("/doubleCheck", methods = ["POST"])
+def doubleCheck():
+    json = request.get_json()
+    user = UserVo(**json)
+    user = user_service.find_by_account(user)
+
+    result = { "duplicate": user is not None }
+
+    return result
+
 @user.route("/signup", methods = ["POST"])
 def signup():
     json = request.get_json()

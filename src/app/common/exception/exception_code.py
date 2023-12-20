@@ -6,6 +6,7 @@ class ExcpetionCode(Enum):
     
     NOT_EXIST_USER = { "code": "u_00001", "message": "", "status": 409 }
     LOGIN_FAIL = { "code": "u_00002", "message": "", "status": 409 }
+    DUPLICATE_USER = { "code": "u_00003", "message": "", "status": 400 }
     
     DB_ERROR = { "code": "db_00001", "message": "", "status": 500 }
     CONN_CREATE_ERROR = { "code": "db_00002", "message": "", "status": 500 }
