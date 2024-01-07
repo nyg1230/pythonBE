@@ -34,6 +34,12 @@ def issue_token_by_user(f):
             "Access-Control-Expose-Headers": jwt_util.JWTEnum.HEADER.value,
             f"{jwt_util.JWTEnum.HEADER.value}": token
         }
+        
+        try:
+            jwt_util.validate_token(token)
+        except:
+            print(1)
+
         return Response(user.to_json(), headers=headers, mimetype="application/json")
     return wrapper
 

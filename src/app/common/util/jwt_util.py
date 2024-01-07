@@ -1,4 +1,5 @@
 import jwt
+from datetime import datetime, timedelta
 from enum import Enum
 from app.common.util import date_util
 from app.common.exception.exception_code import ExcpetionCode
@@ -11,21 +12,20 @@ class JWTEnum(Enum):
     AT = "X-AUTH-AT"
     KEY = "nope"
     ALG = "HS256"
-    EXP_PERIOD = 5 * 60 * 1000
+    EXP_PERIOD = 30 * 60
 
 def get_payload(token):
     validate_token(token)
     return jwt.decode(token, JWTEnum.KEY.value, JWTEnum.ALG.value)
 
 def create_token(p: dict):
-    print(p)
-    now_timestamp = date_util.get_now_timestamp()
+    now = datetime.utcnow()
     payload = {
         **p,
         "iss": "",
         "sub": "",
-        "iat": now_timestamp,
-        "exp": now_timestamp + JWTEnum.EXP_PERIOD.value
+        "iat": now,
+        "exp": now + timedelta(seconds = JWTEnum.EXP_PERIOD.value)
     }
     token = jwt.encode(payload, JWTEnum.KEY.value, algorithm = JWTEnum.ALG.value)
 

@@ -3,6 +3,9 @@ from app.common.util.connection_util import ConnectionUtil
 from app.domain.user.vo.user_vo import UserVo
 
 class UserRepogitory(BaseRepogitory):
+    def __init__(self):
+        super().__init__(UserVo.entity)
+    
     def find_by_account(self, user: UserVo):
         account = user.get_account()
         sql = f"""
