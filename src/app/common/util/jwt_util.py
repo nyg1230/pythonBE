@@ -1,4 +1,5 @@
 import jwt
+from flask import request
 from datetime import datetime, timedelta
 from enum import Enum
 from app.common.util import date_util
@@ -46,3 +47,15 @@ def validate_token(token):
     except jwt.InvalidTokenError:
         raise CustomException(ExcpetionCode.JWT_INVALID)
     return True
+
+def get_current_token():
+    headers = request.headers
+    jwt = headers.get(JWTEnum.HEADER.value)
+    return jwt
+
+def get_current_user():
+    jwt = get_current_token()
+    payload = get_payload(jwt)
+    
+    return payload
+    

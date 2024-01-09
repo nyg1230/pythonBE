@@ -5,9 +5,9 @@ class AccountVo(BaseVo):
     __user_oid: str = None
     __target_date = None
     __memo: str = None
-    __income: int = None
-    __expenditure: int = None
+    __amount: int = None
     __order_num: int = None
+    __type: str = None
     __is_delete: bool = None
     
     __json = ["oid"]
@@ -24,12 +24,12 @@ class AccountVo(BaseVo):
     def get_memo(self) -> str: return self.__memo
     def set_memo(self, memo): self.__memo = memo
     
-    def get_income(self) -> int: return self.__income
-    def set_income(self, num): self.__income = num
+    def get_amount(self) -> int: return self.__amount
+    def set_amount(self, amount): self.__amount = amount
     
-    def get_expenditure(self) -> int: return self.__expenditure
-    def set_expenditure(self, num): self.__expenditure = num
-    
+    def get_type(self) -> str: return self.__type
+    def set_type(self, type): self.__type = type
+
     def get_order_num(self) -> int: return self.__order_num
     def set_order_num(self, num): self.__order_num = num
     

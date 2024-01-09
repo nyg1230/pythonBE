@@ -17,8 +17,8 @@ CREATE TABLE NMAccountBook (
 	MODIFIED_DATE timestamp,
 	TARGET_DATE timestamp NOT NULL,
 	MEMO varchar(1000),
-	INCOME numeric(15, 5) NOT NULL,
-	EXPENDITURE numeric(15, 5) NOT NULL,
+	AMOUNT numeric(15, 5) NOT NULL,
+	TYPE varchar(10) NOT NULL,
 	ORDER_NUM integer,
 	IS_DELETE boolean NOT NULL DEFAULT FALSE
 );

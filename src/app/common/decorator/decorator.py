@@ -17,8 +17,7 @@ def regist_request_decorator(app: Flask):
 def jwt_authorization(f):
     @wraps(f)
     def deco(*args, **kwargs):
-        headers = request.headers
-        jwt = headers.get(jwt_util.JWTEnum.HEADER.value)
+        jwt = jwt_util.get_current_token()
         jwt_util.validate_token(jwt)
 
         return f(*args, **kwargs)

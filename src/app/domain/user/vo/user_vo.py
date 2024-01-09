@@ -10,7 +10,7 @@ class UserVo(BaseVo):
     __nickname: str = None
     __sex: str = None
     
-    __json = ["pwd", "email", "nickname", "sex"]
+    __json = ["pwd", "account", "email", "nickname", "sex"]
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)

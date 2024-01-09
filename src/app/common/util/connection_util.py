@@ -25,17 +25,15 @@ class ConnectionUtil():
             conn.close()
         except:
             raise CustomException(ExcpetionCode.CONN_CLOSE_ERROR)
-            
+
     @staticmethod
-    def execute(sql = "", param = ()):
+    def __conn_template(fn: callable):
         result = None
         conn = None
-
+        
         try:
             conn = ConnectionUtil.__get_conn()
-            with conn.cursor(cursor_factory = psycopg2.extras.RealDictCursor) as cur:
-                cur.execute(sql, param)
-                result = cur.fetchall()
+            result = fn(conn)
             conn.commit()
         except CustomException as e:
             raise e
@@ -47,6 +45,17 @@ class ConnectionUtil():
                 ConnectionUtil.__close_conn(conn)
                 
         return result
+
+    @staticmethod
+    def execute(sql = "", param = ()):       
+        def fn(conn):
+            result = None
+            with conn.cursor(cursor_factory = psycopg2.extras.RealDictCursor) as cur:
+                cur.execute(sql, param)
+                result = cur.fetchall()
+            return result
+        
+        return ConnectionUtil.__conn_template(fn)
     
     @staticmethod
     def select_one(sql = "", param = ()):
@@ -62,3 +71,12 @@ class ConnectionUtil():
                 result = result[0]
         
         return result
+    
+    @staticmethod
+    def multiple_insert(sql = "", params = [], template = None):
+        def fn(conn):
+            result = None
+            with conn.cursor() as cur:
+                result = psycopg2.extras.execute_values(cur, sql, params, template)
+            return result
+        return ConnectionUtil.__conn_template(fn)

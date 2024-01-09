@@ -7,17 +7,7 @@ class AccountRepogitory(BaseRepogitory):
         super().__init__(AccountVo.entity)
 
     def add_account_list(self, account_list: list):
-        columns = ["oid", "user_oid", "target_date", "memo", "income", "expenditure"]
-        sql = f"""
-        INSERT INTO {self.get_entity()} (
-            
-        ) VALUES (
-            
-        )
-        """
-        # result = ConnectionUtil.select_one(sql, (account, ))
-        # user = None if result is None else AccountVo(**result)
+        columns = ["oid", "user_oid", "target_date", "amount", "memo", "type"]
+        result = self.multiple_insert(self.get_entity(), account_list, columns)
 
-        # return user
-        print(sql)
-        print(account_list)
+        print(result)
