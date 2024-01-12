@@ -1,9 +1,9 @@
 from app.domain.base.service.base_service import BaseService
 from app.domain.user.service.user_service import UserService
-from app.domain.account.repository.account_repogitory import AccountRepogitory
+from app.domain.account.repository.account_repository import AccountRepository
 from app.domain.account.vo.account_vo import AccountVo
 
-account_repository = AccountRepogitory()
+account_repository = AccountRepository()
 
 user_service = UserService()
 

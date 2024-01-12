@@ -1,10 +1,10 @@
 from operator import itemgetter
 from app.common.util import jwt_util
 from app.domain.base.service.base_service import BaseService
-from app.domain.user.repogitory.user_repogitory import UserRepogitory
+from app.domain.user.repository.user_repository import UserRepository
 from app.domain.user.vo.user_vo import UserVo
 
-user_repogitory = UserRepogitory()
+user_repository = UserRepository()
 
 class UserService(BaseService):
     def __init__(self):
@@ -16,7 +16,7 @@ class UserService(BaseService):
         return self.find_by_account(UserVo(account = account))
 
     def find_by_account(self, user: UserVo):
-        return user_repogitory.find_by_account(user)
+        return user_repository.find_by_account(user)
     
     def signup(self, user: UserVo):
-        return user_repogitory.signup(user)
+        return user_repository.signup(user)

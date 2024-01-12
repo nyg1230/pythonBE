@@ -1,8 +1,8 @@
-from app.domain.base.repogitory.base_repogitory import BaseRepogitory
+from app.domain.base.repository.base_repository import BaseRepository
 from app.common.util.connection_util import ConnectionUtil
 from app.domain.user.vo.user_vo import UserVo
 
-class UserRepogitory(BaseRepogitory):
+class UserRepository(BaseRepository):
     def __init__(self):
         super().__init__(UserVo.entity)
     

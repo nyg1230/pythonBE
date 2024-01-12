@@ -48,3 +48,13 @@ def reissue_token(f):
         output = f(*args, **kwargs)
         return output
     return wrapper
+
+
+def sql_logging(f):
+    @wraps(f)
+    def wrapper(*args, **kwargs):
+        print(args)
+        print(kwargs)
+        output = f(*args, **kwargs)
+        return output
+    return wrapper

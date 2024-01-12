@@ -28,6 +28,7 @@ def create_token(p: dict):
         "iat": now,
         "exp": now + timedelta(seconds = JWTEnum.EXP_PERIOD.value)
     }
+
     token = jwt.encode(payload, JWTEnum.KEY.value, algorithm = JWTEnum.ALG.value)
 
     return token

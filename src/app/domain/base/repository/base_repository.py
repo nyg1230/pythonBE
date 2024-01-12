@@ -2,7 +2,7 @@ from app.common.util.connection_util import ConnectionUtil
 from app.domain.base.vo.base_vo import BaseVo
 from itertools import repeat
 
-class BaseRepogitory():
+class BaseRepository():
     __entity = None
     
     def __init__(self, entity: str = None):

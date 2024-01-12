@@ -4,8 +4,8 @@ class BaseService():
     def __init__(self):
         self.__test = None
         
-    def get_repogiroty(self):
-        return self.__repogitory
+    def get_reposiroty(self):
+        return self.__repository
         
     def find_by_oid(self, oid):
-        return self.__repogitory().find_by_oid(oid)
+        return self.__repository().find_by_oid(oid)

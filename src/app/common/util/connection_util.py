@@ -4,6 +4,7 @@ import psycopg2.extras
 from psycopg2._psycopg import connection
 from app.common.exception.custom_exception import CustomException
 from app.common.exception.exception_code import ExcpetionCode
+from app.common.decorator import decorator
 
 db_info = util.property_util.get_value("database")
 
@@ -47,6 +48,7 @@ class ConnectionUtil():
         return result
 
     @staticmethod
+    @decorator.sql_logging
     def execute(sql = "", param = ()):       
         def fn(conn):
             result = None
@@ -73,6 +75,7 @@ class ConnectionUtil():
         return result
     
     @staticmethod
+    @decorator.sql_logging
     def multiple_insert(sql = "", params = [], template = None):
         def fn(conn):
             result = None
