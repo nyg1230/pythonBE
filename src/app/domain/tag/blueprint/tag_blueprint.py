@@ -1,6 +1,6 @@
 from flask import Blueprint, request
 from app.domain.tag.service.tag_service import TagService
-from app.domain.tag.vo.tag_vo import Vo
+from app.domain.tag.vo.tag_vo import TagVo
 from app.common.util import jwt_util
 from app.common.decorator import decorator
 from app.common.exception.custom_exception import CustomException

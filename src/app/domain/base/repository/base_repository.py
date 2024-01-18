@@ -1,6 +1,8 @@
 from app.common.util.connection_util import ConnectionUtil
 from app.domain.base.vo.base_vo import BaseVo
+from app.common.param.page_vo import PageVo
 from itertools import repeat
+
 
 class BaseRepository():
     __entity = None
@@ -16,7 +18,7 @@ class BaseRepository():
 
         return ConnectionUtil.select_one(sql, (oid, ))
 
-    def get_column_data(self, data, columns):
+    def get_column_data(self, data: BaseVo, columns: list[str]):
         dataList = []
 
         for column in columns:
@@ -24,11 +26,10 @@ class BaseRepository():
             
         return tuple(dataList)
 
-    def insert(self, entity, data, columns):
+    def insert(self, data: BaseVo, columns: list[str]):
         values = f"""({", ".join(list(repeat("%s", columns.__len__())))})"""
-
         sql = f"""
-        INSERT INTO {entity} (
+        INSERT INTO {self.get_entity()} (
             {", ".join(columns)}
         ) VALUES
             {", ".join(values)}
@@ -36,14 +37,13 @@ class BaseRepository():
         
         return ConnectionUtil.execute(sql, self.get_column_data(data, columns))
 
-    def multiple_insert(self, entity, datas, columns):
+    def multiple_insert(self, datas: list[BaseVo], columns = list[str]):
         params = []
         for data in datas:
             params.append(self.get_column_data(data, columns))                
 
-        print(params)
         sql = f"""
-        INSERT INTO {entity} (
+        INSERT INTO {self.get_entity()} (
             {", ".join(columns)}
         ) VALUES %s
         """

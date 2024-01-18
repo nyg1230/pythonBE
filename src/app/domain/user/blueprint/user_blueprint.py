@@ -40,7 +40,6 @@ def signup():
     json = request.get_json()
     user = UserVo().create(**json)
     result = user_service.signup(user)
-    print(result)
 
     return { "state": "?" }
 

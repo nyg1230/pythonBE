@@ -5,6 +5,7 @@ import importlib
 class blueprint_enum(Enum):
     user = "app.domain.user.blueprint.user_blueprint"
     account = "app.domain.account.blueprint.account_blueprint"
+    tag = "app.domain.tag.blueprint.tag_blueprint"
 
 def blueprint_regist(app: Flask):
     result = {

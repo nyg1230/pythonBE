@@ -39,7 +39,6 @@ class ConnectionUtil():
         except CustomException as e:
             raise e
         except Exception as e:
-            print(e)
             raise CustomException(ExcpetionCode.DB_ERROR)
         finally:
             if (conn is not None):
@@ -75,7 +74,6 @@ class ConnectionUtil():
         return result
     
     @staticmethod
-    @decorator.sql_logging
     def multiple_insert(sql = "", params = [], template = None):
         def fn(conn):
             result = None

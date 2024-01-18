@@ -7,3 +7,9 @@ tag_repository = TagRepository()
 class TagService(BaseService):
     def __init__(self):
         super().__init__()
+
+    def create_tag(self, tag: TagVo):
+        return tag_repository.create_tag(tag = tag)
+
+    def create_tags(self, tags: list[TagVo]):
+        return tag_repository.create_tags(tags = tags)

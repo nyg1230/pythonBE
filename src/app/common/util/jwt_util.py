@@ -35,9 +35,6 @@ def create_token(p: dict):
 
 def recreate_token(token):
     payload = get_payload(token)
-    now_timestamp = date_util.get_now_timestamp()
-    dict(payload).setdefault("iat", now_timestamp)
-    dict(payload).setdefault("exp", now_timestamp + JWTEnum.EXP_PERIOD.value)
     return create_token(payload)
 
 def validate_token(token):

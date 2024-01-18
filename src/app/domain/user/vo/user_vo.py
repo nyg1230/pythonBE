@@ -2,15 +2,12 @@ from app.domain.base.vo.base_vo import BaseVo
 
 class UserVo(BaseVo):
     entity = "NMUser"
+    columns = ["pwd", "account", "email", "nickname", "sex"]
     __account: str = None
     __pwd: str = None
     __email: str = None
-    __created_date = None
-    __modified_date = None
     __nickname: str = None
     __sex: str = None
-    
-    __json = ["pwd", "account", "email", "nickname", "sex"]
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
@@ -42,6 +39,3 @@ class UserVo(BaseVo):
         }
 
         return p
-    
-    def to_json(self):
-        return super().to_json(self.__json)
