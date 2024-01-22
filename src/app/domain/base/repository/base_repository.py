@@ -49,3 +49,25 @@ class BaseRepository():
         """
         
         return ConnectionUtil.multiple_insert(sql, params)
+
+    def update(self, vo: BaseVo):
+        columns = vo.has_columns(vo, False)
+
+        target = []
+        values = []
+        for col in columns:
+            v = vo.get_value(col)
+            values.append(v)
+            target.append(f"{col} = %s")
+        
+        sql = f"""
+        UPDATE {vo.get_entity()} SET
+            {", ".join(target)}
+        WHERE
+            OID = %s
+        """
+
+        values.append(vo.get_oid())
+        param = tuple(values)
+
+        return ConnectionUtil.update(sql, param)

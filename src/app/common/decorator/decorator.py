@@ -57,25 +57,27 @@ def reissue_token(f):
         return output
     return wrapper
 
-def vo_to_json(fn):
+def data_to_json(fn):
     @wraps(fn)
     def wrapper(*args, **kwargs):
         output = fn(*args, **kwargs)
         
         result = None
-        
         try:
-            if (common_util.is_list(output)):
+            data = output.get("data")
+            if (common_util.is_list(data)):
                 result = []
-                for vo in output:
+                for vo in data:
                     result.append(vo.to_dict())
-                result = json.dumps(result, default=str, ensure_ascii=False)
+                # result = json.dumps(result, default=str, ensure_ascii=False)
             else:
-                result = vo.to_json()
+                result = data.to_dict()
+
+            output.__setitem__("data", result)
         except:
             result = output
 
-        return result
+        return json.dumps(output, default=str, ensure_ascii=False)
     return wrapper
 
 def sql_logging(f):

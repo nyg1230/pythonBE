@@ -9,7 +9,18 @@ from app.common.exception.exception_code import ExcpetionCode
 tag = Blueprint("tag_blueprint", __name__, url_prefix="/tag")
 tag_service = TagService()
 
-@tag.route("/sample", methods = [])
+@tag.route("/add", methods = ["POST"])
 @decorator.issue_token_by_user
-def sample():
-    return "sample"
+def add_tag():
+    json = request.get_json()
+    print(json)
+    
+    return "add tag"
+
+@tag.route("/remove", methods = ["POST"])
+@decorator.issue_token_by_user
+def remove_tag():
+    json = request.get_json()
+    print(json)
+
+    return "remove tag"

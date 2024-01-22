@@ -74,10 +74,19 @@ class ConnectionUtil():
         return result
     
     @staticmethod
+    @decorator.sql_logging
     def multiple_insert(sql = "", params = [], template = None):
         def fn(conn):
             result = None
             with conn.cursor() as cur:
                 result = psycopg2.extras.execute_values(cur, sql, params, template)
             return result
+        return ConnectionUtil.__conn_template(fn)
+    
+    @staticmethod
+    def update(sql = "", param = ()):
+        def fn(conn):
+            with conn.cursor() as cur:
+                cur.execute(sql, param)
+        
         return ConnectionUtil.__conn_template(fn)

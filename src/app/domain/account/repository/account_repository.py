@@ -19,7 +19,7 @@ class AccountRepository(BaseRepository):
 
         sql = f"""
         SELECT
-            {", ".join(AccountVo.columns)}
+            {", ".join(AccountVo.get_columns())}
         FROM
             {self.get_entity()}
         {page.get_query()}
@@ -30,5 +30,8 @@ class AccountRepository(BaseRepository):
         for d in result:
             account = AccountVo(**d)
             accounts.append(account)
-            
-        return accounts
+
+        return {
+            "data": accounts,
+            "page": page.to_dict()
+        }

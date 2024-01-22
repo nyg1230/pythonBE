@@ -1,4 +1,5 @@
 from app.domain.base.vo.base_vo import BaseVo
+from app.domain.tag.vo.tag_vo import TagVo
 
 class AccountVo(BaseVo):
     entity = "NMAccountBook"
@@ -12,6 +13,7 @@ class AccountVo(BaseVo):
     __type: str = None
     __category: str = None
     __is_delete: bool = None
+    __tags: list[TagVo] = None
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
@@ -43,12 +45,17 @@ class AccountVo(BaseVo):
     def get_is_delete(self) -> bool: return self.__is_delete
     def set_is_delete(self, bool): self.__is_delete = bool
     
-    def get_token_info(self):
-        p = {
-            "account": self.__account,
-            "email": self.__email,
-            "nickname": self.__nickname,
-            "sex": self.__sex
-        }
+    def get_tags(self) -> list[TagVo]: return self.__tags
+    def set_tags(self, tags): self.__tags = tags
+    
+    def to_dict(self):
+        d = super().to_dict()
+        
+        tags = self.get_tags()
+        if (tags is not None):
+            tag_list = []
+            for tag in tags:
+                tag_list.append(tag.to_dict())
 
-        return p
+            d.__setitem__("tags", tag_list)
+        return d

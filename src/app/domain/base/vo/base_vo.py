@@ -8,7 +8,7 @@ class BaseVo():
     __created_date = None
     __modified_date = None
     
-    __columns = ["oid", "created_date", "modified_date"]
+    columns = ["oid", "created_date", "modified_date"]
 
     def __init__(self, *args, **kwargs):
         self.set(kwargs)
@@ -30,8 +30,32 @@ class BaseVo():
     def get_modified_date(self): return self.__modified_date
     def set_modified_date(self, date): self.__modified_date = date
     
-    def get_columns(self):
-        return [*self.__columns, *self.columns]
+    def get_value(self, key: str):
+        value = None
+        try:
+            value = self.__getattribute__(f"get_{key}")()
+        except:
+            value = None
+
+        return value
+    
+    @classmethod
+    def get_columns(cls):
+        return [*BaseVo.columns, *cls.columns]
+    
+    @classmethod
+    def has_columns(cls, vo = None, has_oid = True):
+        columns = cls.get_columns()
+        contains = []
+        for col in columns:
+            try:
+                if (has_oid or col is not "oid"):
+                    v = vo.get_value(col)
+                    if (v is not None): contains.append(col)
+            except:
+                continue
+
+        return contains
 
     def set(self, obj: dict):
         for key in obj:
@@ -43,7 +67,7 @@ class BaseVo():
     def to_dict(self):
         d = dict()
 
-        keys = [*self.__columns, *self.get_columns()]
+        keys = [*self.columns, *self.get_columns()]
 
         for key in keys:
             try:

@@ -13,3 +13,14 @@ class TagService(BaseService):
 
     def create_tags(self, tags: list[TagVo]):
         return tag_repository.create_tags(tags = tags)
+
+    def get_tags_by_target_oid(self, target_oid):
+        result = tag_repository.get_tags_by_target_oid(target_oid)
+        
+        tags = []
+        
+        for data in result:
+            tag = TagVo().create(**data)
+            tags.append(tag)
+
+        return tags
