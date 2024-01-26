@@ -47,18 +47,12 @@ class AccountService(BaseService):
         return result
     
     def select_account(self, json):
-        param, page_param = itemgetter("param", "page")(json)
-        page = PageVo(**page_param)
-        
-        accounts = account_repository.select_account(param, page)
-        
-        if (param.get("with_tag") == True):
-            for account in accounts["data"]:
-                oid = account.get_oid()
-                tags = tag_service.get_tags_by_target_oid(oid)
-                account.set_tags(tags)
-        
-        # if (with_tag is True):
-        #     print(with_tag)
+        accounts = account_repository.select_account(json)
+        data = accounts.get("data")
 
+        for account in data:
+            oid = account.get_oid()
+            tags = tag_service.get_tags_by_target_oid(oid)
+            account.set_tags(tags)
+        
         return accounts

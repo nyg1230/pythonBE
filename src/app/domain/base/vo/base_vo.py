@@ -18,9 +18,6 @@ class BaseVo():
         self.set_oid(uuid.uuid1().hex)
         return self
     
-    def get_entity(self):
-        return self.__class__.entity
-
     def get_oid(self): return self.__oid
     def set_oid(self, oid): self.__oid = oid
     
@@ -39,6 +36,10 @@ class BaseVo():
 
         return value
     
+    @classmethod    
+    def get_entity(cls):
+        return cls.entity
+
     @classmethod
     def get_columns(cls):
         return [*BaseVo.columns, *cls.columns]
@@ -56,6 +57,11 @@ class BaseVo():
                 continue
 
         return contains
+    
+    @classmethod
+    def has_column(cls, column):
+        columns = cls.get_columns()
+        return columns.__contains__(column)
 
     def set(self, obj: dict):
         for key in obj:

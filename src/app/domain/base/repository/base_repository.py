@@ -1,6 +1,8 @@
 from app.common.util.connection_util import ConnectionUtil
 from app.domain.base.vo.base_vo import BaseVo
 from app.common.param.page_vo import PageVo
+from app.common.param.order_vo import OrderVo
+from app.common.param.where_vo import WhereVo
 from itertools import repeat
 
 
@@ -71,3 +73,45 @@ class BaseRepository():
         param = tuple(values)
 
         return ConnectionUtil.update(sql, param)
+    
+    def select(self, vo: BaseVo, json: dict, where: WhereVo):
+        page = PageVo(json.get("page"))
+        sort = OrderVo(vo, json.get("sort"))
+        
+        sql = f"""
+        SELECT
+            {", ".join(vo.get_columns())}
+        FROM
+            {vo.get_entity()}
+        {where.get_query()}
+        {sort.get_query()}
+        {page.get_query()}
+        """
+
+        result = ConnectionUtil.execute(sql, where.get_param())
+        vo_list = []
+
+        for d in result:
+            o = vo(**d)
+            vo_list.append(o)
+        
+        total = self.select_total_count(vo, where)
+        page.set_total(total)
+        
+        return {
+            "data": vo_list,
+            "page": page.to_dict()
+        }
+    
+    def select_total_count(self, vo: BaseVo, where: WhereVo):
+        sql = f"""
+        SELECT
+            COUNT(1) as count
+        FROM
+            {vo.get_entity()}
+        {where.get_query()}
+        """
+        
+        result = ConnectionUtil.select_one(sql, where.get_param())
+        
+        return result.get("count")

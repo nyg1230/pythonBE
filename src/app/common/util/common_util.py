@@ -41,3 +41,10 @@ def find(obj, key, default_value = None, split_str = "."):
         result = default_value
     
     return result
+
+def case_sensitive(target: str, txt: str, b: bool = True):
+    if (b == True):
+        target = target.upper()
+        txt = txt.upper()
+    
+    return target == txt

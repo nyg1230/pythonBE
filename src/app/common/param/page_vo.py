@@ -1,10 +1,13 @@
+from app.common.util import common_util
+
 class PageVo():
     __page: int = 0
     __count: int = 20
     __total: int = None
 
-    def __init__(self, *args, **kwargs):
-        self.set(kwargs)
+    def __init__(self, obj):
+        if (common_util.is_dict(obj) == True):
+            self.set(obj)
         
     def get_page(self) -> int: return self.__page
     def set_page(self, page: int = 0): self.__page = page

@@ -1,7 +1,7 @@
 from app.domain.base.repository.base_repository import BaseRepository
 from app.common.util.connection_util import ConnectionUtil
 from app.domain.account.vo.account_vo import AccountVo
-from app.common.param.page_vo import PageVo
+from app.common.param.where_vo import WhereVo
 
 from operator import itemgetter
 
@@ -13,25 +13,9 @@ class AccountRepository(BaseRepository):
         columns = ["oid", "user_oid", "target_date", "history", "amount", "memo", "type", "category"]
         return self.multiple_insert(datas = account_list, columns = columns)
     
-    def select_account(self, param: dict = None, page: PageVo = PageVo()) -> list[AccountVo]:
-        to_date = param.get("to_date")
-        from_date = param.get("from_date")
+    def select_account(self, json: dict) -> dict:
+        where = WhereVo()
+        where.set_where()
+        accounts = super().select(AccountVo, json, where)
 
-        sql = f"""
-        SELECT
-            {", ".join(AccountVo.get_columns())}
-        FROM
-            {self.get_entity()}
-        {page.get_query()}
-        """
-
-        result = ConnectionUtil.execute(sql, ())
-        accounts = []
-        for d in result:
-            account = AccountVo(**d)
-            accounts.append(account)
-
-        return {
-            "data": accounts,
-            "page": page.to_dict()
-        }
+        return accounts
