@@ -47,8 +47,16 @@ class ConnectionUtil():
         return result
 
     @staticmethod
+    def execute(sql = "", param = ()):
+        def fn(conn):
+            with conn.cursor() as cur:
+                cur.execute(sql, param)
+        
+        return ConnectionUtil.__conn_template(fn)
+
+    @staticmethod
     @decorator.sql_logging
-    def execute(sql = "", param = ()):       
+    def select(sql = "", param = ()):       
         def fn(conn):
             result = None
             with conn.cursor(cursor_factory = psycopg2.extras.RealDictCursor) as cur:
@@ -60,7 +68,7 @@ class ConnectionUtil():
     
     @staticmethod
     def select_one(sql = "", param = ()):
-        result = ConnectionUtil.execute(sql, param)
+        result = ConnectionUtil.select(sql, param)
 
         if (util.common_util.is_list(result)):
             len = result.__len__()
@@ -74,6 +82,13 @@ class ConnectionUtil():
         return result
     
     @staticmethod
+    def insert(sql = "", params = ()):
+        def fn(conn):
+            with conn.cursor() as cur:
+                cur.execute(sql, params)
+        return ConnectionUtil.__conn_template(fn)
+    
+    @staticmethod
     @decorator.sql_logging
     def multiple_insert(sql = "", params = [], template = None):
         def fn(conn):
@@ -81,12 +96,4 @@ class ConnectionUtil():
             with conn.cursor() as cur:
                 result = psycopg2.extras.execute_values(cur, sql, params, template)
             return result
-        return ConnectionUtil.__conn_template(fn)
-    
-    @staticmethod
-    def update(sql = "", param = ()):
-        def fn(conn):
-            with conn.cursor() as cur:
-                cur.execute(sql, param)
-        
         return ConnectionUtil.__conn_template(fn)

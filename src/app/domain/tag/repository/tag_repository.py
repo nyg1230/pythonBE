@@ -26,4 +26,4 @@ class TagRepository(BaseRepository):
             TARGET_OID = %s
         """
         
-        return ConnectionUtil.execute(sql, (target_oid, ))
+        return ConnectionUtil.select(sql, (target_oid, ))

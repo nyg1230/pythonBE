@@ -10,17 +10,17 @@ tag = Blueprint("tag_blueprint", __name__, url_prefix="/tag")
 tag_service = TagService()
 
 @tag.route("/add", methods = ["POST"])
-@decorator.issue_token_by_user
+@decorator.jwt_authorization
 def add_tag():
     json = request.get_json()
-    print(json)
-    
-    return "add tag"
+    tag = tag_service.create_tag(json)
+
+    return tag.to_json()
 
 @tag.route("/remove", methods = ["POST"])
-@decorator.issue_token_by_user
+@decorator.jwt_authorization
 def remove_tag():
     json = request.get_json()
-    print(json)
+    tag_service.delete_tag(json)
 
     return "remove tag"

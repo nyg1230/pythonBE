@@ -15,10 +15,19 @@ class BaseRepository():
     def get_entity(self) -> str: return self.__entity
 
     def find_by_oid(self, vo: BaseVo) -> BaseVo:
-        oid = BaseVo.get_oid()
-        sql = f"SELECT * FROM {vo.get_entity()} WHERE OID = %s"
+        oid = vo.get_oid()
+        sql = f"""
+        SELECT
+            {", ".join(vo.get_columns())}
+        FROM
+            {vo.get_entity()}
+        WHERE OID = %s
+        """
+        
+        result = ConnectionUtil.select_one(sql, (oid, ))
+        vo.set(result)
 
-        return ConnectionUtil.select_one(sql, (oid, ))
+        return vo
 
     def get_column_data(self, data: BaseVo, columns: list[str]):
         dataList = []
@@ -34,10 +43,10 @@ class BaseRepository():
         INSERT INTO {self.get_entity()} (
             {", ".join(columns)}
         ) VALUES
-            {", ".join(values)}
+            {values}
         """
         
-        return ConnectionUtil.execute(sql, self.get_column_data(data, columns))
+        return ConnectionUtil.insert(sql, self.get_column_data(data, columns))
 
     def multiple_insert(self, datas: list[BaseVo], columns = list[str]):
         params = []
@@ -72,7 +81,7 @@ class BaseRepository():
         values.append(vo.get_oid())
         param = tuple(values)
 
-        return ConnectionUtil.update(sql, param)
+        return ConnectionUtil.execute(sql, param)
     
     def select(self, vo: BaseVo, json: dict, where: WhereVo):
         page = PageVo(json.get("page"))
@@ -88,7 +97,7 @@ class BaseRepository():
         {page.get_query()}
         """
 
-        result = ConnectionUtil.execute(sql, where.get_param())
+        result = ConnectionUtil.select(sql, where.get_param())
         vo_list = []
 
         for d in result:
@@ -115,3 +124,16 @@ class BaseRepository():
         result = ConnectionUtil.select_one(sql, where.get_param())
         
         return result.get("count")
+    
+    def delete_by_oid(self, vo: BaseVo):
+        sql = f"""
+            DELETE FROM
+                {vo.get_entity()}
+            WHERE
+                OID = %s
+        """
+        
+        print(sql)
+        print(vo.get_oid())
+        
+        return ConnectionUtil.execute(sql, (vo.get_oid(), ))

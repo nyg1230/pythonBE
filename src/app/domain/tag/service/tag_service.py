@@ -8,8 +8,11 @@ class TagService(BaseService):
     def __init__(self):
         super().__init__()
 
-    def create_tag(self, tag: TagVo):
-        return tag_repository.create_tag(tag = tag)
+    def create_tag(self, obj: dict):
+        tag_vo = TagVo().create(**obj)
+        tag_repository.create_tag(tag = tag_vo)
+        
+        return tag_repository.find_by_oid(tag_vo)
 
     def create_tags(self, tags: list[TagVo]):
         return tag_repository.create_tags(tags = tags)
@@ -20,7 +23,12 @@ class TagService(BaseService):
         tags = []
         
         for data in result:
-            tag = TagVo().create(**data)
+            tag = TagVo(**data)
             tags.append(tag)
 
         return tags
+    
+    def delete_tag(self, json: dict):
+        tag = TagVo(**json)
+        
+        return tag_repository.delete_by_oid(tag)

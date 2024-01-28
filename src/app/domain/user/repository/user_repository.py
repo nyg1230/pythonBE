@@ -40,4 +40,4 @@ class UserRepository(BaseRepository):
             user.get_sex(),
         )
         
-        return ConnectionUtil.execute(sql, param)
+        return ConnectionUtil.select(sql, param)
