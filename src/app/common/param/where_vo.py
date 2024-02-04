@@ -10,13 +10,13 @@ class WhereVo:
         if self.__where == None:
             query = ""
         else:
-            query = "WHERE " if has_where else ""
+            query = "" if has_where else "WHERE "
             query = f"{query}{self.__where}"
         
         return query
 
     def set_where(self, where: str = None): self.__where = where
     
-    def get_param(self) -> tuple: self.__param
+    def get_param(self) -> tuple: return self.__param
     def set_param(self, param: tuple = ()): self.__param = param
     

@@ -9,7 +9,6 @@ from app.common.param.page_vo import PageVo
 from operator import itemgetter
 
 account_repository = AccountRepository()
-
 user_service = UserService()
 tag_service = TagService()
 
@@ -47,7 +46,8 @@ class AccountService(BaseService):
         return result
     
     def select_account(self, json):
-        accounts = account_repository.select_account(json)
+        user = user_service.get_token_user()
+        accounts = account_repository.select_account(json, user)
         data = accounts.get("data")
 
         for account in data:
