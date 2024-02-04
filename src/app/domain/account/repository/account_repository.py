@@ -10,7 +10,7 @@ class AccountRepository(BaseRepository):
         super().__init__(AccountVo.entity)
 
     def insert_account(self, account_list: list):
-        columns = ["oid", "user_oid", "target_date", "history", "amount", "memo", "type", "category"]
+        columns = ["oid", "user_oid", "target_date", "history", "amount", "memo", "category"]
         return self.multiple_insert(datas = account_list, columns = columns)
     
     def select_account(self, json: dict) -> dict:

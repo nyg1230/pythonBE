@@ -3,14 +3,13 @@ from app.domain.tag.vo.tag_vo import TagVo
 
 class AccountVo(BaseVo):
     entity = "NMAccountBook"
-    columns = ["user_oid", "target_date", "history", "memo", "amount", "order_num", "type", "category"]
+    columns = ["user_oid", "target_date", "history", "memo", "amount", "order_num", "category"]
     __user_oid: str = None
     __target_date = None
     __history: str = None
     __memo: str = None
     __amount: int = None
     __order_num: int = None
-    __type: str = None
     __category: str = None
     __is_delete: bool = None
     __tags: list[TagVo] = None
@@ -32,10 +31,7 @@ class AccountVo(BaseVo):
     
     def get_amount(self) -> int: return self.__amount
     def set_amount(self, amount): self.__amount = amount
-    
-    def get_type(self) -> str: return self.__type
-    def set_type(self, type): self.__type = type
-    
+
     def get_category(self) -> str: return self.__category
     def set_category(self, category): self.__category = category
 
