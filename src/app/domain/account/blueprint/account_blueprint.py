@@ -3,6 +3,8 @@ from app.common.decorator import decorator
 from app.domain.account.service.account_service import AccountService
 from app.domain.account.vo.account_vo import AccountVo
 
+import json
+
 account = Blueprint("account_blueprint", __name__, url_prefix="/account")
 account_service = AccountService()
 
@@ -33,3 +35,20 @@ def update_account():
     account_service.update(account)
     
     return Response(status=200)
+
+@account.route("/period/data", methods = ["POST"])
+@decorator.jwt_authorization
+@decorator.data_to_json
+def get_period_expense():
+    json = request.get_json()
+    result = account_service.select_period_data(json)
+    
+    return result
+
+@account.route("/period/category/data", methods = ["POST"])
+@decorator.jwt_authorization
+def get_period_category_expense():
+    req_json = request.get_json()
+    result = account_service.select_period_category_data(req_json)
+    
+    return json.dumps(result, default=str, ensure_ascii=False)

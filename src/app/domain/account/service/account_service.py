@@ -56,3 +56,11 @@ class AccountService(BaseService):
             account.set_tags(tags)
         
         return accounts
+    
+    def select_period_data(self, json):
+        user = user_service.get_token_user()
+        return account_repository.select_period_data(json, user)
+
+    def select_period_category_data(self, json):
+        user = user_service.get_token_user()
+        return account_repository.select_period_category_data(json, user)
